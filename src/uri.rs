@@ -556,7 +556,7 @@ impl Uri {
                                 // RFC describes this as:
                                 // "T.path = merge(Base.path, R.path);"
                                 let mut path = self.path.clone();
-                                if path.len() > 1 {
+                                if self.authority.is_none() || path.len() > 1 {
                                     path.pop();
                                 }
                                 path.extend(
@@ -1449,6 +1449,7 @@ mod tests {
             ("http://a/b/c/d;p?q", "../../", "http://a").into(),
             ("http://a/b/c/d;p?q", "../../g", "http://a/g").into(),
             // Here are some examples of our own.
+            ("foo", "bar", "bar").into(),
             ("http://example.com", "foo", "http://example.com/foo").into(),
             ("http://example.com/", "foo", "http://example.com/foo").into(),
             ("http://example.com", "foo/", "http://example.com/foo/").into(),
