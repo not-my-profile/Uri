@@ -97,7 +97,7 @@ use super::{
 /// [slice]: https://doc.rust-lang.org/std/primitive.slice.html
 /// [`TryFrom::try_from`]: https://doc.rust-lang.org/std/convert/trait.TryFrom.html#tymethod.try_from
 /// [`TryInto::try_into`]: https://doc.rust-lang.org/std/convert/trait.TryInto.html#tymethod.try_into
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq)]
 pub struct Uri {
     scheme: Option<String>,
     authority: Option<Authority>,
@@ -772,6 +772,12 @@ impl Uri {
                 String::from_utf8(userinfo.to_vec()).map_err(Into::into)
             })
             .transpose()
+    }
+}
+
+impl std::fmt::Debug for Uri {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_tuple("Uri").field(&self.to_string()).finish()
     }
 }
 
